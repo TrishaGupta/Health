@@ -2,7 +2,22 @@ import { StyleSheet } from "react-native";
 
 import { COLORS, FONT, SIZES } from "../../../constants";
 
-const styles = StyleSheet.create({
+export const containerStyle = StyleSheet.create({
+  container: {
+    padding: 8,
+    backgroundColor: "#ffffff",
+  },
+  rowContainer: {
+    flexDirection: 'row'
+  }
+}); 
+
+export const styles = StyleSheet.create({
+  unselectedText: {
+    paddingLeft: 45,
+    color: "#000000",
+    fontWeight: "normal",
+},
   container: {
     width: "100%",
   },
@@ -69,4 +84,4 @@ const styles = StyleSheet.create({
   }),
 });
 
-export default styles;
+//export default styles;

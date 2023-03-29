@@ -27,4 +27,5 @@ if(!fontsLoaded){
 return <Stack onLayoutRootView={onLayoutRootView}/>;
 
 }
+
 export default Layout;
