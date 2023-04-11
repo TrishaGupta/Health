@@ -24,7 +24,10 @@ if(!fontsLoaded){
     return null;
 }
 
-return <Stack onLayoutRootView={onLayoutRootView}/>;
+return(
+     <Stack initialRouteName="home">
+        <Stack.Screen name = "home"/>
+        </Stack>);
 
 }
 export default Layout;
