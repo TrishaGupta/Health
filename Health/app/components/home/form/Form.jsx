@@ -9,7 +9,6 @@ import Number from './Number';
 import CountryCode from './CountryCode';
 
 
-import { icons, SIZES } from '../../../constants';
 import styles from './Form.style';
 import  containerStyle  from './Form.style';
          

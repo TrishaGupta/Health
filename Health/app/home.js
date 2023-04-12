@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { COLORS, icons, images, SIZES} from '../constants';
 import {
     Nearbyjobs, Popularjobs, ScreenHeaderBtn, Form
-} from '../components';
+} from '../app/components';
 
 const Home = () => {
     const router = useRouter();
