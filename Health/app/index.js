@@ -1,9 +1,21 @@
 import { Redirect } from 'expo-router';
+import Home from './home';
+import { userReducer } from './components/home/formSlice';
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
 
-export default function Index(){
+const  Index = () => {
+
+    const store = configureStore({
+        reducer: userReducer
+    });
 
 return(
-    <Redirect href ="/home"/>
+    <Provider store={store}>
+    <Home />
+    </Provider >
+     
 );
 
 };
+export default Index;

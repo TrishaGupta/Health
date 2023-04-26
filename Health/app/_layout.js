@@ -3,7 +3,10 @@ import { useCallback } from 'react';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 
+
 SplashScreen.preventAutoHideAsync();
+
+
 
 const Layout = () => {
     const [fontsLoaded] = useFonts({
@@ -25,8 +28,9 @@ if(!fontsLoaded){
 }
 
 return(
-     <Stack initialRouteName="home">
-        <Stack.Screen name = "home"/>
+     <Stack initialRouteName="home" options={{headerShown:false}}>
+        <Stack.Screen name = "home" options={{headerShown:false
+        }}/>
         </Stack>);
 
 }

@@ -1,21 +1,16 @@
 import { Stack, useRouter } from 'expo-router';
 import { View, ScrollView, SafeAreaView, Text, Button} from 'react-native';
-import { useState } from 'react';
-
 import { COLORS, icons, images, SIZES} from '../constants';
 import {
-    Nearbyjobs, Popularjobs, ScreenHeaderBtn, Form
+    ScreenHeaderBtn, Form
 } from '../app/components';
+
 
 const Home = () => {
     const router = useRouter();
 
-    const handleSubmit = () =>{
-        console.log('here');
-        router.push("/components/messages/messages");
-    };
-
     return(
+      
     <SafeAreaView style={{flex : 1, backgroundColor: COLORS.lightWhite}}>
    <Stack.Screen
    options={{
@@ -38,11 +33,13 @@ const Home = () => {
         padding: SIZES.medium
     }}>
         <Form/>
-        <Button onPress={handleSubmit} title="Open" />
+ 
         
     </View>
    </ScrollView>
-    </SafeAreaView>)
+    </SafeAreaView>
+   
+    )
 
 }
 

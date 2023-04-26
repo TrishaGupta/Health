@@ -1,19 +1,29 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image, FlatList, Button} from 'react-native';
 import { useRouter } from 'expo-router';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
 import Name from './Name';
 import Number from './Number';
 import CountryCode from './CountryCode';
 
 
+
 import styles from './Form.style';
 import  containerStyle  from './Form.style';
+
+
+import firebase from "firebase/app";
+import 'firebase/database';
+import { useDispatch } from 'react-redux';
+import { addUser } from '../formSlice';
+import { submitUser } from '../../../api/api';
+
          
 
-const Form = () => {
+const Form = (props) => {
+
 
   const router = useRouter();
   // contains the countryCode state which is changed by CountryCode Component
@@ -22,6 +32,8 @@ const Form = () => {
   const [codeNumber, setCodeNumber] = useState("1");
   //used to keep the state of the final phone number of the format = "+" + "country code" + "phone number"
   const [finalNumber, setFinalNumber] = useState("");
+ 
+  const dispatch = useDispatch();
  
   const {
     control,
@@ -40,11 +52,18 @@ const Form = () => {
   };
   
   const onSubmit = (data) => {
-    console.log(data);
+    
 
     //stores the final number in finalNumber
     const number = "+" + codeNumber+ data["Phone Number"];
-    setFinalNumber(number);
+    setFinalNumber(prevState => {
+      return {number};
+    });
+   
+    const infoAddUser = { id:null, firstName: data["First Name"], lastName: data["Last Name"], contactNumber: number};
+    dispatch(addUser(infoAddUser));
+   
+    router.push("/components/home/form/messages/messages");
   };
 
 
@@ -57,12 +76,10 @@ const Form = () => {
 
      {/* Phone Number Component */}
      <View style={{flexDirection:'row'}}>
-     <CountryCode name ="Country Code" handleCode={handleCode} handleCodeNumber={handleCodeNumber}/>
+     <CountryCode name ="Country Code" handleCode={handleCode} handleCodeNumber={handleCodeNumber} />
      <Number name ="Phone Number" control={control} errors={errors} />
-     <Text>{finalNumber}</Text>
-
     </View>
-
+    
     <Button onPress={handleSubmit(onSubmit)} title="Login" />
     </View>
   );

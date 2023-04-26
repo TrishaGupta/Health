@@ -5,6 +5,9 @@
       "bundler": "metro"
     },
     "name": "Health",
-    "slug": "Health"
+    "slug": "Health",
+    "ios": {
+      "bundleIdentifier": "ios"
+    }
   }
 }
