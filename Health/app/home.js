@@ -4,27 +4,22 @@ import { COLORS, icons, images, SIZES} from '../constants';
 import {
     ScreenHeaderBtn, Form
 } from '../app/components';
+import { NavigationContainer } from '@react-navigation/native';
 
 
-const Home = () => {
+const Home = ({navigation}) => {
     const router = useRouter();
 
+
+    const handleSubmit = () =>{
+       // router.push("/components/home/form/messages/messages");
+       navigation.navigate('components/home/form/messages/messages');
+    };
+
     return(
-      
+    
     <SafeAreaView style={{flex : 1, backgroundColor: COLORS.lightWhite}}>
-   <Stack.Screen
-   options={{
-    headerStyle : {backgroundColor: COLORS.lightWhite},
-    headerShadowVisible: false,
-    headerLeft: () => (
-        <ScreenHeaderBtn iconUrl={icons.menu} dimension = "60%"/>
-    ),
-    headerRight: () => (
-        <ScreenHeaderBtn iconUrl= {images.profile} dimension="100%"/>
-    ),
-    headerTitle: "home"
-   }}
-   />
+    
 
    <ScrollView showsVerticalScrollIndicator={false}>
     <View
@@ -32,13 +27,13 @@ const Home = () => {
         flex: 1, 
         padding: SIZES.medium
     }}>
-        <Form/>
- 
+        <Form navigation={navigation}/>
+        <Button onPress={handleSubmit} title="Open" />
         
     </View>
    </ScrollView>
     </SafeAreaView>
-   
+
     )
 
 }

@@ -63,7 +63,8 @@ const Form = (props) => {
     const infoAddUser = { id:null, firstName: data["First Name"], lastName: data["Last Name"], contactNumber: number};
     dispatch(addUser(infoAddUser));
    
-    router.push("/components/home/form/messages/messages");
+    navigation.navigate();
+    //router.push("/components/home/form/messages/messages");
   };
 
 

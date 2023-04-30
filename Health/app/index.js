@@ -1,20 +1,17 @@
-import { Redirect } from 'expo-router';
+
+import { NativeRouter, Route, Link } from "react-router-native";
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
 import Home from './home';
-import { userReducer } from './components/home/formSlice';
-import { Provider } from 'react-redux';
-import { configureStore } from '@reduxjs/toolkit';
+import Messages from './components/home/form/messages/messages';
 
-const  Index = () => {
 
-    const store = configureStore({
-        reducer: userReducer
-    });
+
+const  Index = ({navigation}) => {
 
 return(
-    <Provider store={store}>
-    <Home />
-    </Provider >
-     
+            <Home navigation={navigation}/>
 );
 
 };
