@@ -31,7 +31,7 @@ export const optionsSlice = createSlice({
         removeChoice: (state, action) =>{
             const index = state.findIndex(item => item.name === action.payload.name);
            state[index].isSelect = false;
-           state[index].color = colorNotChoosen;
+           state[index].color = state[index].color === colorChoose? colorNotChoosen: colorChoose;
         }
     }
 });

@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import { useRouter } from 'expo-router';
 import { View, Text, Button,FlatList, StyleSheet, TouchableOpacity} from 'react-native';
-import { Picker } from '@react-native-picker/picker';
-import { addChoice,removeChoice,options, initialState, colorChoose, optionsSelector, optionsSlice} from './messageSlice';
+import { addChoice,removeChoice,options, initialState, colorChoose, optionsSelector, optionsSlice, colorNotChoosen} from './messageSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { COLORS } from '../../../../../constants';
@@ -17,7 +15,14 @@ const Messages = () => {
     //selector that selects the options provided to users
     const optionsSelect = useSelector(optionsSelector);
 
-    const[count, setCount] = useState(0);    
+    //count holds the number of selected values 
+    const[count, setCount] = useState(0); 
+    //if the toucahble opacity should be disabled or not 
+    const [disabled, setDisabled] = useState(false);
+    //holds the current color of the current option
+    const [colorB, setColorB ] = useState(colorNotChoosen);
+    
+    
 
     // style for each option to be diplayed 
     const styles = StyleSheet.create({
@@ -38,15 +43,43 @@ const Messages = () => {
         }
       });
    
-      //this dispatches addChoice to change color of option background when tapped
-      const updateSelectTrue = (item) => {
-        dispatch(addChoice({
+      //evebt handler to select or deselect the option
+      const updateSelectTrue = (item, color) => {
+        const index = optionsSelect.findIndex((option) => option.name === item);
+      
+        if (optionsSelect[index].isSelect) {
+          dispatch(removeChoice({ 
+            name: item,
+            isSelect: false,
+           
+           }));
+        } else {
+          dispatch(addChoice({
             name: item,
             isSelect: true,
-            color: colorChoose
-        }));
-      }
+          
+           }));
+        }
+      
+        setColorB(color);
+      };
 
+      //used to update count when isSelect is updated 
+      useEffect(() => {
+        const selectedCount = optionsSelect.reduce(
+          (count, option) => count + (option.isSelect ? 1 : 0),
+          0
+        );
+        setCount(selectedCount);
+      }, [optionsSelect]);
+
+      useEffect(() => {
+        if(count<=2)
+          setDisabled(false);
+        else 
+          setDisabled(true);
+      }, [count]);
+     
 
     //Item render for flatlist, uses the styles to display the option's name
       const ItemRenderer = ({ label, color}) =>{
@@ -59,8 +92,11 @@ const Messages = () => {
      //renderItenm used to change color when the option is tapped
       const renderItem = ({ item, index })=>{
       const color = item.color;
+      
+     
+
         return(
-      <TouchableOpacity  onPress={(event) => updateSelectTrue(item.name)}>
+      <TouchableOpacity  onPress={(event) => updateSelectTrue(item.name, color)} disabled={disabled && !optionsSelect[index].isSelect}>
         <ItemRenderer index={index} label={item.name} color={color} />
       </TouchableOpacity>
       )};
