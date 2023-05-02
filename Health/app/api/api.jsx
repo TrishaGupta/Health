@@ -1,36 +1,23 @@
-import React, { useState, createContext } from "react";
 import database from '../../firebase';
 import { Database, postsRef } from "firebase/database";
-import {ref, set, push} from "firebase/database";
-import firebase from "firebase/app";
+import {ref, set, push, update} from "firebase/database";
 
 
 
-
-
-
-/*
-const [Id , setId] = useState('');
-const [firstName, setFirstname] = useState('');
-const [lastName, setLastName] = useState('');
-const [contactNumber, setContactNumber] = useState('');
-
-
-const saveUser  = (Id, firstName, lastName, contactNumber) => {
-    console.log(contactNumber);
-    submitUser(Id, firstName, lastName, contactNumber)
-    .then(result => {
-        setId('');
-        setFirstname('');
-        setLastName('');
-        setContactNumber('');
-    })
-    .catch(error => {
-        console.log(error);
-    })
+//submitChoices to submit the choices by the users
+export const submitChoices = (key, choices) => {
+  
+    return new Promise(function(resolve, reject){
+     
+      const dbRef = ref(database, 'users/'+ key);
+      console.log(dbRef);
+      update(dbRef, {Choices: choices});
+})
 };
-*/
-export const submitUser = (id, firstName, lastName, contactNumber) => {
+
+
+//used to create a new user    
+export const submitUser = (id, firstName, lastName, contactNumber, choices) => {
    
     return new Promise(function(resolve, reject){
         
@@ -40,13 +27,15 @@ export const submitUser = (id, firstName, lastName, contactNumber) => {
             key = id;
         }
         else{
-            
             key = push(ref(database, 'users/')).key;
+            global.key = key;
+        
 
             set(ref(database, 'users/'+ key), {
                 FirstName: firstName,
                 LastName: lastName,
-                ContactNumber: contactNumber
+                ContactNumber: contactNumber,
+                Choices: choices
               }).catch(error =>{
                 console.log(error);
               });
@@ -54,7 +43,3 @@ export const submitUser = (id, firstName, lastName, contactNumber) => {
     });
 
 };
-
-
-
-

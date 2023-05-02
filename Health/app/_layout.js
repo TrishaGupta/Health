@@ -62,7 +62,7 @@ return(
     <Stack.Screen name = "index" component={Index} options={{headerShown:false}}/>
     <Stack.Screen name = "home" component={Home} options={{headerShown:false}}/>
     <Stack.Screen name= "components/home/form/messages/messages" component={Messages} options={{headerShown: false}}/>
-    <Stack.Screen name= "form" component={Form}/>
+    <Stack.Screen name= "components/home/form/form" component={Form}/>
     <Stack.Screen name= "components/home/form/test/test" component={Test}/>
   
     </Stack.Navigator>

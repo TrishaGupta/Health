@@ -1,13 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import { View, Text, Button,FlatList, StyleSheet, TouchableOpacity} from 'react-native';
-import { addChoice,removeChoice,options, initialState, colorChoose, optionsSelector, optionsSlice, colorNotChoosen} from './messageSlice';
+import { addChoice,removeChoice, optionsSelector,  colorNotChoosen} from './messageSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { COLORS } from '../../../../../constants';
+import { addUserChoices } from './messagesApi';
 
 
+export let choices = [];
 
-const Messages = () => {
+const Messages = ({navigation}) => {
 
     //dipatch the store
     const dispatch = useDispatch();
@@ -22,8 +24,7 @@ const Messages = () => {
     //holds the current color of the current option
     const [colorB, setColorB ] = useState(colorNotChoosen);
     
-    
-
+   
     // style for each option to be diplayed 
     const styles = StyleSheet.create({
         container: {
@@ -43,9 +44,9 @@ const Messages = () => {
         }
       });
    
-      //evebt handler to select or deselect the option
+      //event handler to select or deselect the option
       const updateSelectTrue = (item, color) => {
-        const index = optionsSelect.findIndex((option) => option.name === item);
+      const index = optionsSelect.findIndex((option) => option.name === item);
       
         if (optionsSelect[index].isSelect) {
           dispatch(removeChoice({ 
@@ -62,6 +63,7 @@ const Messages = () => {
         }
       
         setColorB(color);
+        
       };
 
       //used to update count when isSelect is updated 
@@ -73,6 +75,8 @@ const Messages = () => {
         setCount(selectedCount);
       }, [optionsSelect]);
 
+
+      //used to update disabled value when count is updated 
       useEffect(() => {
         if(count<=2)
           setDisabled(false);
@@ -89,17 +93,26 @@ const Messages = () => {
         </View>
         )};
       
-     //renderItenm used to change color when the option is tapped
+     //renderItem used to change color when the option is tapped
       const renderItem = ({ item, index })=>{
       const color = item.color;
-      
-     
+      const isDisabled = disabled && !optionsSelect[index].isSelect;;   
 
-        return(
-      <TouchableOpacity  onPress={(event) => updateSelectTrue(item.name, color)} disabled={disabled && !optionsSelect[index].isSelect}>
-        <ItemRenderer index={index} label={item.name} color={color} />
-      </TouchableOpacity>
+       //the option disables touch when 3 have alredy been selected and it is not one of them
+      return(
+        <TouchableOpacity  onPress={(event) => updateSelectTrue(item.name, color)} disabled={isDisabled}>
+          <ItemRenderer index={index} label={item.name} color={color} />
+        </TouchableOpacity>
       )};
+
+
+      const messageHandler = () =>{
+        choices = optionsSelect.filter(option => option.isSelect).map(option => option.name);
+        
+        const data = {choices: choices}
+        
+        dispatch(addUserChoices(data));
+      };
 
     
     return(
@@ -109,9 +122,10 @@ const Messages = () => {
         data={optionsSelect}
         renderItem={renderItem}
         keyExtractor={item => item.name}
-      />
+        />
+
+        <Button onPress={messageHandler} title='Next'></Button>
         </View>
-     
         </SafeAreaView>
     );
 

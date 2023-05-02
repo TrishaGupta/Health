@@ -39,10 +39,9 @@ export const addUser = createAsyncThunk(
     async(data, thunkAPI) => {
         
         try{
-           
-            const response = await submitUser(data.id, data.firstName, data.lastName, data.contactNumber);
+            const response = await submitUser(data.id, data.firstName, data.lastName, data.contactNumber, data.choices);
             const json = await response.json();
-            console.log(json);
+            //console.log(json);
             return json;
         }
         catch(err){

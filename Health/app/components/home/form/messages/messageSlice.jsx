@@ -1,6 +1,7 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { createSlice, createSelector } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { submitChoices } from "../../../../api/api";
+
 
 //options temporarily hard coded 
 export const options = ['Emotional Well Being', 
@@ -16,6 +17,8 @@ export const initialState = options.map(key => ({
     isSelect:false,
     color: colorNotChoosen
 }));
+
+
 
 //slice created for options
 export const optionsSlice = createSlice({
@@ -41,9 +44,3 @@ export const {addChoice, removeChoice} = optionsSlice.actions;
 
 //selectors for the options 
 export const optionsSelector = (state) => state.options;
-
-
-
-
-
-

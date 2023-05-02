@@ -12,6 +12,7 @@ import CountryCode from './CountryCode';
 
 import styles from './Form.style';
 import  containerStyle  from './Form.style';
+import { NavigationContainer } from '@react-navigation/native';
 
 
 import firebase from "firebase/app";
@@ -22,7 +23,7 @@ import { submitUser } from '../../../api/api';
 
          
 
-const Form = (props) => {
+const Form = ({props, navigation}) => {
 
 
   const router = useRouter();
@@ -60,11 +61,11 @@ const Form = (props) => {
       return {number};
     });
    
-    const infoAddUser = { id:null, firstName: data["First Name"], lastName: data["Last Name"], contactNumber: number};
+    const infoAddUser = { id:null, firstName: data["First Name"], lastName: data["Last Name"], contactNumber: number, choices: ['temp']};
     dispatch(addUser(infoAddUser));
    
-    navigation.navigate();
-    //router.push("/components/home/form/messages/messages");
+    navigation.navigate("components/home/form/messages/messages");
+    
   };
 
 
